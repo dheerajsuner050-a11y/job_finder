@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Profile — PLUTO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="app-shell">
+  <aside class="sidebar">
+    <a href="index.html" class="brand">
+      <div class="brand-mark">P</div>
+      <div class="brand-name">PLUTO</div>
+    </a>
+    <a href="dashboard.html" class="side-link">Dashboard</a>
+    <a href="upload-resume.html" class="side-link">Upload Resume</a>
+    <a href="ats-result.html" class="side-link">ATS Result</a>
+    <a href="jobs.html" class="side-link">Jobs</a>
+    <a href="profile.html" class="side-link active">Profile</a>
+    <div class="sidebar-footer">
+      <a href="#" class="side-link" data-logout>Log out</a>
+    </div>
+  </aside>
+
+  <main class="app-main">
+    <div class="app-topbar">
+      <h1>Your profile</h1>
+      <div class="user-chip" id="userChip"></div>
+    </div>
+
+    <div class="profile-grid">
+      <div class="card profile-avatar-card">
+        <div class="profile-avatar-big" id="profileAvatarBig">--</div>
+        <h3 style="margin-bottom:4px;" id="profileNameDisplay"></h3>
+        <p style="font-size:13px; margin-bottom:18px;">Resume on file</p>
+        <div class="badge" id="resumeOnFile">No resume analyzed yet</div>
+      </div>
+
+      <div class="card">
+        <span class="section-eyebrow">Account details</span>
+        <h3 style="margin-bottom:20px;">Edit profile</h3>
+
+        <div class="form-success-banner" id="profileSuccess"></div>
+
+        <form id="profileForm">
+          <div class="field">
+            <label for="profileName">Full name</label>
+            <input type="text" id="profileName" required />
+          </div>
+          <div class="field">
+            <label for="profileEmail">Email address</label>
+            <input type="email" id="profileEmail" disabled style="background:var(--bg); color:var(--ink-faint);" />
+            <div class="hint">Email can't be changed in this demo.</div>
+          </div>
+          <div class="field">
+            <label for="profilePhone">Phone number</label>
+            <input type="tel" id="profilePhone" placeholder="+91 98765 43210" />
+          </div>
+          <button type="submit" class="btn btn-primary">Save changes</button>
+        </form>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="js/auth.js"></script>
+<script src="js/profile.js"></script>
+</body>
+</html>

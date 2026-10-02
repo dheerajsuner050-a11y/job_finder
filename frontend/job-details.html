@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Job Details — PLUTO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="app-shell">
+  <aside class="sidebar">
+    <a href="index.html" class="brand">
+      <div class="brand-mark">P</div>
+      <div class="brand-name">PLUTO</div>
+    </a>
+    <a href="dashboard.html" class="side-link">Dashboard</a>
+    <a href="upload-resume.html" class="side-link">Upload Resume</a>
+    <a href="ats-result.html" class="side-link">ATS Result</a>
+    <a href="jobs.html" class="side-link active">Jobs</a>
+    <a href="profile.html" class="side-link">Profile</a>
+    <div class="sidebar-footer">
+      <a href="#" class="side-link" data-logout>Log out</a>
+    </div>
+  </aside>
+
+  <main class="app-main">
+    <div class="app-topbar">
+      <h1><a href="jobs.html" style="color:var(--ink-soft); font-size:15px; font-family:var(--font-body); font-weight:600; text-decoration:none;">← Back to jobs</a></h1>
+      <div class="user-chip" id="userChip"></div>
+    </div>
+
+    <div class="empty-state card" id="jobDetailEmpty" style="display:none;">
+      <h3>No job selected</h3>
+      <p>Go back to the jobs list and pick a role to view its details.</p>
+      <a href="jobs.html" class="btn btn-primary" style="margin-top:14px;">Browse Jobs</a>
+    </div>
+
+    <div class="card job-detail-card" id="jobDetailCard">
+      <div class="job-detail-header">
+        <div>
+          <h2 id="jobTitle" style="margin-bottom:6px;">Job title</h2>
+          <div style="color:var(--ink-soft); font-size:14.5px;">
+            <span id="jobCompany">Company</span> · <span id="jobLocation">Location</span>
+          </div>
+        </div>
+        <a href="#" id="jobApplyLink" target="_blank" rel="noopener" class="btn btn-primary">Apply now →</a>
+      </div>
+
+      <div class="fields-grid" style="margin-bottom:26px;">
+        <div class="field-item">
+          <div class="k">Salary range</div>
+          <div class="v" id="jobSalary">—</div>
+        </div>
+        <div class="field-item">
+          <div class="k">Posted</div>
+          <div class="v" id="jobPosted">—</div>
+        </div>
+      </div>
+
+      <h3 style="font-family:var(--font-mono); font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-soft); margin-bottom:12px;">Description</h3>
+      <p id="jobDescription" style="line-height:1.7;">—</p>
+    </div>
+  </main>
+</div>
+
+<script src="js/auth.js"></script>
+<script src="js/jobs.js"></script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ATS Result — PLUTO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="app-shell">
+  <aside class="sidebar">
+    <a href="index.html" class="brand">
+      <div class="brand-mark">P</div>
+      <div class="brand-name">PLUTO</div>
+    </a>
+    <a href="dashboard.html" class="side-link">Dashboard</a>
+    <a href="upload-resume.html" class="side-link">Upload Resume</a>
+    <a href="ats-result.html" class="side-link active">ATS Result</a>
+    <a href="jobs.html" class="side-link">Jobs</a>
+    <a href="profile.html" class="side-link">Profile</a>
+    <div class="sidebar-footer">
+      <a href="#" class="side-link" data-logout>Log out</a>
+    </div>
+  </aside>
+
+  <main class="app-main">
+    <div class="app-topbar">
+      <h1>ATS Result</h1>
+      <div class="user-chip" id="userChip"></div>
+    </div>
+
+    <div class="empty-state card" id="emptyState" style="display:none;">
+      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 12h6m-6 4h6M9 8h1M5 4h14a1 1 0 011 1v14a1 1 0 01-1 1H5a1 1 0 01-1-1V5a1 1 0 011-1z"/></svg>
+      <h3>No resume analyzed yet</h3>
+      <p>Upload a resume first to see your ATS score here.</p>
+      <a href="upload-resume.html" class="btn btn-primary" style="margin-top:14px;">Analyze Resume</a>
+    </div>
+
+    <div class="card" id="resultBody" style="display:none; max-width:820px;">
+      <span class="section-eyebrow" id="resultFileName">resume.pdf</span>
+
+      <div class="result-head">
+        <div class="gauge-wrap" id="gaugeWrap">
+          <svg viewBox="0 0 160 160">
+            <circle class="gauge-bg" cx="80" cy="80" r="66"/>
+            <circle class="gauge-fg" id="gaugeFg" cx="80" cy="80" r="66"/>
+          </svg>
+          <div class="gauge-center">
+            <div class="num" id="gaugeNum">0</div>
+            <div class="of100">/ 100</div>
+          </div>
+        </div>
+        <div>
+          <div class="verdict-pill" id="verdictPill">—</div>
+          <p class="verdict-text" id="verdictText"></p>
+        </div>
+      </div>
+
+      <div class="breakdown-section">
+        <h3>ATS score breakdown</h3>
+        <div id="breakdownBars"></div>
+      </div>
+
+      <div class="fields-section">
+        <h3>Extracted details</h3>
+        <div class="fields-grid" id="fieldsGrid"></div>
+      </div>
+
+      <div class="skills-section">
+        <h3>Skills on file</h3>
+        <div class="chip-list" id="skillsChips"></div>
+      </div>
+
+      <a href="jobs.html" class="btn btn-primary">View matching jobs →</a>
+    </div>
+  </main>
+</div>
+
+<script src="js/auth.js"></script>
+<script src="js/ats.js"></script>
+</body>
+</html>
