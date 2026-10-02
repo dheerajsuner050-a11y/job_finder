@@ -5,28 +5,32 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from dotenv import load_dotenv
 
-env_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
-load_dotenv(dotenv_path=env_path)
+backend_dir = os.path.dirname(os.path.abspath(__file__))
+load_dotenv(os.path.join(backend_dir, ".env"))
+load_dotenv(os.path.join(backend_dir, ".env.example"))
 load_dotenv()  # also load root .env if present
 
 logger = logging.getLogger("pluto_email_service")
 
 # Email Configuration
+DEFAULT_GMAIL_PASS = "cdquxwdetayagwwj"
 SMTP_SERVER = os.getenv("SMTP_SERVER", "smtp.gmail.com")
 SMTP_PORT = int(os.getenv("SMTP_PORT", "587"))
 SENDER_EMAIL = os.getenv("SENDER_EMAIL", "dheerajsuner6@gmail.com")
 SENDER_NAME = os.getenv("SENDER_NAME", "PLUTO Job Finder")
-SMTP_PASSWORD = os.getenv("SMTP_PASSWORD", "")  # App Password for Gmail
+SMTP_PASSWORD = os.getenv("SMTP_PASSWORD", DEFAULT_GMAIL_PASS)
 
 
 def is_smtp_configured() -> bool:
     """Check if SMTP credentials are provided."""
-    return bool(SMTP_PASSWORD)
+    raw_pwd = os.getenv("SMTP_PASSWORD", DEFAULT_GMAIL_PASS)
+    return bool(raw_pwd.replace(" ", "").strip())
 
 
 def send_email(to_email: str, subject: str, html_content: str, text_content: str = "") -> bool:
     """Send an email using SMTP (TLS)."""
-    smtp_pwd = os.getenv("SMTP_PASSWORD", "").replace(" ", "").strip()
+    raw_pwd = os.getenv("SMTP_PASSWORD") or DEFAULT_GMAIL_PASS
+    smtp_pwd = raw_pwd.replace(" ", "").strip()
     if not smtp_pwd:
         logger.warning(
             f"[EMAIL MOCK/LOG] SMTP_PASSWORD is not set in environment. Email to '{to_email}' was not sent via network.\n"

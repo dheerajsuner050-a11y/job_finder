@@ -25,6 +25,9 @@ from auth_store import (
     consume_reset_token,
 )
 
+backend_dir = os.path.dirname(os.path.abspath(__file__))
+load_dotenv(os.path.join(backend_dir, ".env"))
+load_dotenv(os.path.join(backend_dir, ".env.example"))
 load_dotenv()
 
 app = FastAPI(title="PLUTO — Resume Analyzer & Job Suggestion API")
