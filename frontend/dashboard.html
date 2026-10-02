@@ -32,6 +32,7 @@
       <div class="user-chip" id="userChip"></div>
     </div>
 
+    <!-- Stat cards -->
     <div class="stat-grid">
       <div class="stat-card">
         <div class="k">Latest ATS score</div>
@@ -51,6 +52,37 @@
       </div>
     </div>
 
+    <!-- Extracted Candidate Profile (14 Fields) -->
+    <div class="card" id="candidateProfileCard" style="margin-bottom:24px;">
+      <div class="profile-header-row">
+        <div>
+          <span class="section-eyebrow">Extracted Candidate Profile</span>
+          <h3 style="margin-bottom:4px;">Parsed Resume Attributes</h3>
+        </div>
+        <button class="btn btn-outline btn-sm" onclick="toggleEditMode()" id="editProfileToggleBtn">✏️ Edit Fields</button>
+      </div>
+      <div class="candidate-profile-grid" id="candidateProfileGrid"></div>
+    </div>
+
+    <!-- Saved Jobs Section (Bookmarked Jobs with Sort & Remove) -->
+    <div class="card" style="margin-bottom:24px;">
+      <div class="saved-jobs-header-row">
+        <div>
+          <span class="section-eyebrow">Bookmarked Opportunities</span>
+          <h3 style="margin-bottom:4px;">Saved Jobs</h3>
+        </div>
+        <div class="saved-jobs-sort-wrap">
+          <label for="savedJobsSort" style="font-size:12px; font-weight:600; color:var(--ink-soft);">Sort by:</label>
+          <select id="savedJobsSort" class="sort-select" onchange="renderSavedJobs()">
+            <option value="score">ATS Match Score (High to Low)</option>
+            <option value="date">Date Saved (Newest First)</option>
+          </select>
+        </div>
+      </div>
+      <div id="savedJobsContainer" class="saved-jobs-grid"></div>
+    </div>
+
+    <!-- Recent Analysis Link -->
     <div class="card" id="recentAnalysisCard" style="display:none; margin-bottom:20px;">
       <span class="section-eyebrow">Most recent analysis</span>
       <h3 id="recentFileName" style="margin-bottom:14px;">resume.pdf</h3>
@@ -60,6 +92,7 @@
       </div>
     </div>
 
+    <!-- No Analysis Empty State -->
     <div class="card empty-state" id="noAnalysisCard">
       <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
       <h3>No resume analyzed yet</h3>

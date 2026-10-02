@@ -377,26 +377,107 @@ input[type=file]{ display:none; }
 }
 .verdict-text{ color: var(--ink-soft); font-size:14px; max-width:44ch; }
 
-.breakdown-section h3, .fields-section h3, .skills-section h3{
+.breakdown-section h3, .fields-section h3, .skills-section h3, .ats-engines-section h3, .tips-section h3, .job-suggestions-section h3{
   font-family: var(--font-mono); font-size:11px; letter-spacing:0.1em; text-transform:uppercase;
   color: var(--ink-soft); margin-bottom:14px;
 }
 .bar-row{ margin-bottom:13px; }
-.bar-row .bar-label{ display:flex; justify-content:space-between; font-size:13px; margin-bottom:5px; }
-.bar-row .bar-label span:last-child{ font-family: var(--font-mono); color: var(--ink-soft); }
+.bar-row .bar-label{ display:flex; justify-content:space-between; font-size:13px; margin-bottom:5px; gap:8px; }
+.bar-row .bar-label span:last-child{ font-family: var(--font-mono); color: var(--ink-soft); white-space:nowrap; }
 .bar-track{ height:9px; background: var(--bg); border-radius:5px; overflow:hidden; border:1px solid var(--border); }
 .bar-fill{ height:100%; border-radius:5px; width:0%; transition: width .9s cubic-bezier(.2,.9,.3,1); }
 
-.fields-grid{ display:grid; grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); gap:16px; margin: 20px 0 26px; }
+/* BUG FIX: Fields grid wrapping & text truncation / break-all to prevent header overlap */
+.fields-grid{ display:grid; grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); gap:18px; margin: 20px 0 26px; }
+.field-item{ min-width:0; word-break:break-all; overflow-wrap:anywhere; }
 .field-item .k{ font-size:11px; color: var(--ink-faint); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:4px; }
-.field-item .v{ font-family: var(--font-mono); font-size:14px; color: var(--ink); }
+.field-item .v{ font-family: var(--font-mono); font-size:13.5px; color: var(--ink); min-width:0; word-break:break-all; overflow-wrap:anywhere; }
 .field-item .v.missing{ color: var(--danger); font-style:italic; }
 
-.chip-list{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:28px; }
+.chip-list{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px; }
 .chip{
   font-family: var(--font-mono); font-size:12px; padding:6px 12px;
   background: var(--accent-soft); border:1px solid #BFE3EF; border-radius:999px; color: var(--primary-dark);
+  display:inline-flex; align-items:center; gap:6px;
 }
+.chip-matched{ background:#EAF7EF; color:#1F9D55; border-color:#A8E4C0; }
+.chip-missing{ background:#FDEDEE; color:#D64545; border-color:#F8B4B4; }
+.chip-copy-btn{
+  background: var(--primary); color:#fff; border:none; border-radius:4px;
+  padding:2px 8px; font-size:11px; font-weight:600; cursor:pointer; font-family:var(--font-body);
+  transition: background .15s ease;
+}
+.chip-copy-btn:hover{ background:#099cd9; }
+
+/* Per-ATS System Engine Compatibility Grid */
+.ats-engines-section{ margin: 28px 0; padding-top:20px; border-top:1px solid var(--border); }
+.ats-engine-grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:16px; margin-top:14px; }
+.ats-card{ background:var(--surface); border:1px solid var(--border); border-radius: var(--radius-md); padding:16px; display:flex; flex-direction:column; gap:8px; }
+.ats-card-head{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.ats-icon{ font-size:22px; flex:none; }
+.ats-title-wrap{ flex:1; }
+.ats-name{ font-family: var(--font-display); font-weight:700; font-size:15px; color: var(--primary-darker); }
+.ats-score-badge{ font-family: var(--font-mono); font-size:12px; color: var(--ink-soft); }
+.ats-status-pill{ font-family: var(--font-mono); font-size:11px; font-weight:700; padding:3px 10px; border-radius:999px; text-transform:uppercase; }
+.status-pass{ background:#EAF7EF; color:#1B6B3C; border:1px solid #1F9D55; }
+.status-risk{ background:#FEF7E6; color:#8A6500; border:1px solid #E0A100; }
+.status-fail{ background:#FDEDEE; color:#9E2A2A; border:1px solid #D64545; }
+.ats-desc{ font-size:12px; color: var(--ink-soft); margin:4px 0 6px; line-height:1.4; }
+.ats-reasons-list{ margin:0; padding-left:16px; font-size:12px; color: var(--ink); line-height:1.45; }
+
+/* Prioritized Improvement Tips */
+.tips-section{ margin: 28px 0; padding-top:20px; border-top:1px solid var(--border); }
+.tips-header-row{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:12px; }
+.sub-desc{ font-size:13px; color: var(--ink-soft); margin-bottom:16px; }
+.score-preview-badge{
+  background: var(--primary-darker); color:#fff; font-family: var(--font-mono);
+  font-weight:700; font-size:13.5px; padding:6px 16px; border-radius:999px;
+  box-shadow: var(--shadow-sm);
+}
+.score-preview-badge span{ color: var(--primary); font-size:16px; }
+
+.tip-card{ background:var(--surface); border:1px solid var(--border); border-radius: var(--radius-md); padding:18px; margin-bottom:16px; }
+.tip-top{ display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+.tip-checkbox-label{ display:flex; align-items:center; gap:10px; cursor:pointer; }
+.tip-checkbox{ width:18px; height:18px; accent-color: var(--primary); cursor:pointer; }
+.badge-high{ background:#FDEDEE; color:#9E2A2A; font-weight:700; padding:2px 8px; border-radius:4px; font-size:11px; font-family:var(--font-mono); }
+.badge-medium{ background:#FEF7E6; color:#8A6500; font-weight:700; padding:2px 8px; border-radius:4px; font-size:11px; font-family:var(--font-mono); }
+.badge-low{ background:#EAF7EF; color:#1B6B3C; font-weight:700; padding:2px 8px; border-radius:4px; font-size:11px; font-family:var(--font-mono); }
+.tip-points-boost{ font-family: var(--font-mono); font-size:12px; font-weight:700; color: var(--success); }
+.tip-title{ font-family: var(--font-display); font-size:16px; font-weight:700; color: var(--primary-darker); margin-bottom:6px; }
+.tip-desc{ font-size:13.5px; color: var(--ink-soft); margin-bottom:6px; line-height:1.5; }
+.tip-example-box{ background: var(--bg); border:1px solid var(--border); border-radius: var(--radius-sm); padding:12px; margin-top:10px; font-family: var(--font-mono); font-size:12.5px; }
+.ex-label{ font-weight:700; font-size:11px; text-transform:uppercase; margin-bottom:3px; }
+.ex-before{ color: var(--danger); }
+.ex-after{ color: var(--success); margin-top:8px; }
+.ex-code{ background: var(--surface); border:1px solid var(--border); padding:6px 10px; border-radius:4px; color: var(--ink); word-break:break-all; }
+
+/* Saved Jobs on Dashboard */
+.saved-jobs-header-row, .profile-header-row{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:16px; }
+.saved-jobs-sort-wrap{ display:flex; align-items:center; gap:8px; }
+.sort-select{ padding:6px 12px; border:1px solid var(--border); border-radius: var(--radius-sm); font-size:13px; background:var(--surface); }
+
+.saved-jobs-grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:16px; margin-top:12px; }
+.saved-job-card{ background:var(--surface); border:1px solid var(--border); border-radius: var(--radius-md); padding:16px; display:flex; flex-direction:column; justify-content:space-between; gap:12px; }
+.saved-job-top{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
+.saved-job-footer{ display:flex; align-items:center; justify-content:space-between; border-top:1px solid var(--border); padding-top:10px; }
+.saved-date{ font-size:11.5px; color: var(--ink-faint); font-family: var(--font-mono); }
+.score-badge{ font-family: var(--font-mono); font-size:12px; font-weight:700; background: var(--accent-soft); color: var(--primary-dark); padding:3px 8px; border-radius:999px; }
+.btn-bookmark{ background:none; border:1px solid var(--border); border-radius: var(--radius-sm); padding:6px 12px; font-size:12.5px; cursor:pointer; font-weight:600; color: var(--ink-soft); transition: all .15s ease; }
+.btn-bookmark:hover, .btn-bookmark.saved{ background: var(--accent-soft); border-color: var(--primary); color: var(--primary-dark); }
+
+.candidate-profile-grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:16px; margin-top:14px; }
+.field-edit-input{ width:100%; padding:6px 10px; font-size:13px; border:1.5px solid var(--primary); border-radius:4px; font-family: var(--font-mono); }
+
+/* Toast Notifications */
+.toast-notification{
+  position:fixed; bottom:24px; right:24px; z-index:999;
+  background: var(--primary-darker); color:#fff; font-family: var(--font-body);
+  font-size:13.5px; font-weight:600; padding:12px 20px; border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-lg); display:none; animation: slideUp .25s ease;
+}
+.toast-notification.show{ display:block; }
+@keyframes slideUp{ from{ transform: translateY(20px); opacity:0; } to{ transform: translateY(0); opacity:1; } }
 
 /* ============================================================
    Job cards
@@ -439,3 +520,4 @@ input[type=file]{ display:none; }
 .empty-state h3{ font-size:17px; margin-bottom:6px; }
 
 .badge{ display:inline-block; font-size:11px; font-family: var(--font-mono); padding:3px 9px; border-radius:999px; background: var(--accent-soft); color: var(--primary-dark); }
+

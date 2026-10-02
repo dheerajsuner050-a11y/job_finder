@@ -32,6 +32,9 @@
       <div class="user-chip" id="userChip"></div>
     </div>
 
+    <!-- Toast message for copy buttons -->
+    <div id="toastMessage" class="toast-notification"></div>
+
     <div class="empty-state card" id="emptyState" style="display:none;">
       <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 12h6m-6 4h6M9 8h1M5 4h14a1 1 0 011 1v14a1 1 0 01-1 1H5a1 1 0 01-1-1V5a1 1 0 011-1z"/></svg>
       <h3>No resume analyzed yet</h3>
@@ -39,9 +42,12 @@
       <a href="upload-resume.html" class="btn btn-primary" style="margin-top:14px;">Analyze Resume</a>
     </div>
 
-    <div class="card" id="resultBody" style="display:none; max-width:820px;">
-      <span class="section-eyebrow" id="resultFileName">resume.pdf</span>
+    <div class="card result-card-wrap" id="resultBody" style="display:none; max-width:920px;">
+      <div class="result-header-row">
+        <span class="section-eyebrow" id="resultFileName">resume.pdf</span>
+      </div>
 
+      <!-- Overall Score Gauge -->
       <div class="result-head">
         <div class="gauge-wrap" id="gaugeWrap">
           <svg viewBox="0 0 160 160">
@@ -59,27 +65,68 @@
         </div>
       </div>
 
+      <!-- 6-Weighted Score Breakdown -->
       <div class="breakdown-section">
         <h3>ATS score breakdown</h3>
         <div id="breakdownBars"></div>
       </div>
 
+      <!-- Per-ATS System Engine Compatibility (Workday, Greenhouse, Lever, Taleo, iCIMS) -->
+      <div class="ats-engines-section">
+        <h3>Per-ATS Engine Compatibility</h3>
+        <p class="sub-desc">Simulated parsing compatibility across top enterprise ATS platforms.</p>
+        <div class="ats-engine-grid" id="atsEngineGrid"></div>
+      </div>
+
+      <!-- Extracted Details Grid (Bug fixed with wrapping) -->
       <div class="fields-section">
         <h3>Extracted details</h3>
         <div class="fields-grid" id="fieldsGrid"></div>
       </div>
 
+      <!-- Skills Comparison: Matched vs Missing -->
       <div class="skills-section">
-        <h3>Skills on file</h3>
-        <div class="chip-list" id="skillsChips"></div>
+        <h3>Skills Analysis</h3>
+        <div class="skills-comparison-wrap">
+          <div class="skills-group">
+            <div class="skills-group-title matched-title">✓ Matched Skills</div>
+            <div class="chip-list" id="matchedSkillsChips"></div>
+          </div>
+          <div class="skills-group">
+            <div class="skills-group-title missing-title">⚠ Missing Target Skills</div>
+            <div class="chip-list" id="missingSkillsChips"></div>
+          </div>
+        </div>
       </div>
 
-      <a href="jobs.html" class="btn btn-primary">View matching jobs →</a>
+      <!-- Prioritized Improvement Tips & Score Preview -->
+      <div class="tips-section">
+        <div class="tips-header-row">
+          <h3>Prioritized Improvement Tips</h3>
+          <div class="score-preview-badge" id="scorePreviewBadge">
+            Preview Score: <span id="previewScoreNum">0</span>/100
+          </div>
+        </div>
+        <p class="sub-desc">Check off completed fixes to preview your updated ATS score boost in real-time.</p>
+        <div class="tips-list" id="tipsList"></div>
+      </div>
+
+      <!-- Matched Job Suggestions with Save Job Bookmark -->
+      <div class="job-suggestions-section">
+        <h3>Matched Job Openings</h3>
+        <div class="job-grid" id="jobSuggestionsGrid"></div>
+      </div>
+
+      <div style="margin-top:24px; display:flex; gap:12px;">
+        <a href="jobs.html" class="btn btn-primary">Browse All Jobs →</a>
+        <a href="upload-resume.html" class="btn btn-outline">Analyze Another Resume</a>
+      </div>
     </div>
   </main>
 </div>
 
 <script src="js/auth.js"></script>
+<script src="js/atsProfiles.js"></script>
 <script src="js/ats.js"></script>
 </body>
 </html>

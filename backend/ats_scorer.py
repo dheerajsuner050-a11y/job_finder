@@ -1,96 +1,126 @@
 """
 ATS (Applicant Tracking System) score simulation.
-
-Real ATS engines are proprietary, so this gives a realistic, explainable
-approximation split into weighted categories. The breakdown is what you
-feed into a chart (bar / radar) on the frontend.
+Weighted scoring breakdown (0-100 total):
+- Keywords: 35 max
+- Skills match: 25 max
+- Formatting: 15 max
+- Sections: 10 max
+- Experience & Impact: 10 max
+- Contact & Readability: 5 max
 """
-
-from skills_db import SKILLS_DB
 
 MAX_SCORE = 100
 
 WEIGHTS = {
-    "contact_info": 15,
-    "skills_match": 35,
-    "experience": 20,
-    "formatting_sections": 20,
-    "resume_length": 10,
+    "Keywords": 35,
+    "Skills Match": 25,
+    "Formatting": 15,
+    "Sections": 10,
+    "Experience & Impact": 10,
+    "Contact & Readability": 5,
 }
 
 REQUIRED_SECTIONS = ["education", "experience", "skills"]
 
 
-def score_contact_info(email: str | None, mobile: str | None) -> float:
-    score = 0
-    if email:
-        score += WEIGHTS["contact_info"] * 0.5
-    if mobile:
-        score += WEIGHTS["contact_info"] * 0.5
-    return round(score, 1)
-
-
-def score_skills_match(skills_found: list[str], target_skills: list[str] | None) -> float:
-    """
-    If the user supplies a target job description / skill list, score against
-    that (real-world ATS keyword matching). Otherwise score against the
-    breadth of skills found relative to the general skills database, capped.
-    """
+def score_keywords(raw_text: str, target_skills: list[str] | None) -> float:
+    text_len = len(raw_text)
+    if text_len < 200:
+        return 5.0
     if target_skills:
         target_set = {s.lower() for s in target_skills}
         if not target_set:
-            return 0.0
-        matched = target_set.intersection(set(skills_found))
+            return 15.0
+        found_count = sum(1 for s in target_set if s in raw_text.lower())
+        ratio = found_count / len(target_set)
+        return round(min(ratio, 1.0) * WEIGHTS["Keywords"], 1)
+    
+    # Generic keyword density check based on length & word variety
+    words = set(raw_text.lower().split())
+    ratio = min(len(words) / 180, 1.0)
+    return round(ratio * WEIGHTS["Keywords"], 1)
+
+
+def score_skills_match(skills_found: list[str], target_skills: list[str] | None) -> float:
+    if target_skills:
+        target_set = {s.lower() for s in target_skills}
+        if not target_set:
+            return 10.0
+        matched = target_set.intersection({s.lower() for s in skills_found})
         ratio = len(matched) / len(target_set)
-        return round(min(ratio, 1.0) * WEIGHTS["skills_match"], 1)
+        return round(min(ratio, 1.0) * WEIGHTS["Skills Match"], 1)
 
-    # No JD supplied — reward having a solid, varied skill set (10+ skills = full marks)
-    ratio = min(len(skills_found) / 10, 1.0)
-    return round(ratio * WEIGHTS["skills_match"], 1)
-
-
-def score_experience(years: float) -> float:
-    # 5+ years = full marks, scaled linearly below that
-    ratio = min(years / 5, 1.0)
-    return round(ratio * WEIGHTS["experience"], 1)
+    ratio = min(len(skills_found) / 8, 1.0)
+    return round(ratio * WEIGHTS["Skills Match"], 1)
 
 
-def score_formatting_sections(sections_found: list[str]) -> float:
-    found_required = [s for s in REQUIRED_SECTIONS if s in sections_found]
+def score_formatting(raw_text: str) -> float:
+    # Formatting penalties for bad characters, tables or raw text length
+    length = len(raw_text)
+    score = WEIGHTS["Formatting"]
+    if length < 800 or length > 8000:
+        score -= 4
+    if "\t" in raw_text:
+        score -= 2
+    return round(max(3.0, score), 1)
+
+
+def score_sections(sections_found: list[str]) -> float:
+    found_required = [s for s in REQUIRED_SECTIONS if s in [sec.lower() for sec in sections_found]]
     ratio = len(found_required) / len(REQUIRED_SECTIONS)
-    return round(ratio * WEIGHTS["formatting_sections"], 1)
+    return round(ratio * WEIGHTS["Sections"], 1)
 
 
-def score_resume_length(raw_text_length: int) -> float:
-    # Ideal resume: roughly 1500–6000 characters of text (~1-2 pages)
-    if 1500 <= raw_text_length <= 6000:
-        return WEIGHTS["resume_length"]
-    if raw_text_length < 1500:
-        ratio = raw_text_length / 1500
-    else:
-        ratio = max(0, 1 - (raw_text_length - 6000) / 6000)
-    return round(max(0, ratio) * WEIGHTS["resume_length"], 1)
+def score_experience_impact(years: float, raw_text: str) -> float:
+    # Score years + presence of impact metrics (numbers/percentages)
+    ratio_years = min(years / 5, 1.0) * 0.6
+    has_metrics = bool(re_search_metrics(raw_text))
+    impact_bonus = 0.4 if has_metrics else 0.2
+    return round((ratio_years + impact_bonus) * WEIGHTS["Experience & Impact"], 1)
+
+
+def re_search_metrics(text: str) -> bool:
+    import re
+    return bool(re.search(r"\b(?:\d+%\s*|\$\d+|\d+\s*x|\d+\s*users|\d+\s*projects)\b", text, re.I))
+
+
+def score_contact_readability(parsed: dict) -> float:
+    score = 0.0
+    if parsed.get("email"):
+        score += 2.0
+    if parsed.get("mobile_number"):
+        score += 1.5
+    if parsed.get("linkedin"):
+        score += 1.5
+    return round(min(score, WEIGHTS["Contact & Readability"]), 1)
 
 
 def compute_ats_score(parsed_resume: dict, target_skills: list[str] | None = None) -> dict:
-    contact_score = score_contact_info(parsed_resume.get("email"), parsed_resume.get("mobile_number"))
-    skills_score = score_skills_match(parsed_resume.get("skills", []), target_skills)
-    experience_score = score_experience(parsed_resume.get("experience_years", 0))
-    formatting_score = score_formatting_sections(parsed_resume.get("sections_found", []))
-    length_score = score_resume_length(parsed_resume.get("raw_text_length", 0))
+    raw_text = parsed_resume.get("raw_text", "")
+    skills_found = parsed_resume.get("skills", [])
+    years = parsed_resume.get("experience_years", 0)
+    sections_found = parsed_resume.get("sections_found", [])
+
+    kw_score = score_keywords(raw_text, target_skills)
+    sk_score = score_skills_match(skills_found, target_skills)
+    fmt_score = score_formatting(raw_text)
+    sec_score = score_sections(sections_found)
+    exp_score = score_experience_impact(years, raw_text)
+    cnt_score = score_contact_readability(parsed_resume)
 
     breakdown = {
-        "Contact Info": contact_score,
-        "Skills Match": skills_score,
-        "Experience": experience_score,
-        "Formatting & Sections": formatting_score,
-        "Resume Length": length_score,
+        "Keywords": kw_score,
+        "Skills Match": sk_score,
+        "Formatting": fmt_score,
+        "Sections": sec_score,
+        "Experience & Impact": exp_score,
+        "Contact & Readability": cnt_score,
     }
 
     total = round(sum(breakdown.values()), 1)
 
     return {
-        "overall_score": total,
+        "overall_score": min(total, 100.0),
         "max_score": MAX_SCORE,
         "breakdown": breakdown,
         "max_breakdown": WEIGHTS,
@@ -100,9 +130,9 @@ def compute_ats_score(parsed_resume: dict, target_skills: list[str] | None = Non
 
 def get_verdict(score: float) -> str:
     if score >= 80:
-        return "Excellent — highly likely to pass ATS filters"
+        return "Excellent — high pass rate across top ATS screeners"
     if score >= 60:
-        return "Good — should pass most ATS filters with minor tweaks"
+        return "Good — passes most ATS screeners with minor fixes"
     if score >= 40:
-        return "Fair — needs improvement to reliably pass ATS filters"
-    return "Poor — significant revisions recommended"
+        return "Fair — needs optimization to pass strict ATS screeners"
+    return "Needs Rework — missing critical keywords and sections"
