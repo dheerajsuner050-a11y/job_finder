@@ -47,16 +47,82 @@ function requireAuth() {
   }
 }
 
+function updateUserProfile(profileData) {
+  const user = getSession();
+  if (!user || !user.email) return null;
+  const users = getUsers();
+  const idx = users.findIndex(u => u.email === user.email);
+  if (idx === -1) {
+    users.push({ email: user.email, ...profileData });
+  } else {
+    users[idx] = { ...users[idx], ...profileData };
+  }
+  saveUsers(users);
+
+  // Async sync with backend if online
+  fetch("/api/user/profile", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email: user.email, ...profileData }),
+  }).catch(() => {});
+
+  return getUsers().find(u => u.email === user.email);
+}
+
+function getSavedJobs() {
+  const user = getSession();
+  if (!user || !user.saved_jobs) return [];
+  return user.saved_jobs;
+}
+
+function isJobSaved(job) {
+  if (!job) return false;
+  const saved = getSavedJobs();
+  const targetId = job.url || job.id || job.title;
+  return saved.some(j => (j.url || j.id || j.title) === targetId);
+}
+
+function toggleSaveJob(job) {
+  const user = getSession();
+  if (!user || !user.email) return false;
+  let saved = getSavedJobs();
+  const targetId = job.url || job.id || job.title;
+  const exists = saved.some(j => (j.url || j.id || j.title) === targetId);
+
+  if (exists) {
+    saved = saved.filter(j => (j.url || j.id || j.title) !== targetId);
+  } else {
+    saved.push({
+      id: job.id || targetId,
+      title: job.title || "Untitled job",
+      company: job.company || "",
+      location: job.location || "",
+      salary_min: job.salary_min,
+      salary_max: job.salary_max,
+      url: job.url || "",
+      description_snippet: job.description_snippet || "",
+      created: job.created || new Date().toISOString()
+    });
+  }
+
+  updateUserProfile({ saved_jobs: saved });
+  return !exists;
+}
+
 /** Render navbar user chip */
 function renderUserChip() {
   const user = getSession();
   const chip = document.getElementById("userChip");
   if (!chip) return;
-  if (user && user.name) {
-    const initials = user.name.split(" ").map(p => p[0]).join("").slice(0, 2).toUpperCase();
+  if (user && (user.name || user.email)) {
+    const displayName = user.name || user.email.split("@")[0];
+    const initials = displayName.split(" ").map(p => p[0]).join("").slice(0, 2).toUpperCase();
+    const avatarHtml = user.profile_photo
+      ? `<img src="${user.profile_photo}" class="avatar" style="object-fit:cover;" alt="Profile" />`
+      : `<div class="avatar">${initials}</div>`;
     chip.innerHTML = `
-      <div class="avatar">${initials}</div>
-      <span>${user.name}</span>
+      ${avatarHtml}
+      <span>${displayName}</span>
     `;
   }
 }

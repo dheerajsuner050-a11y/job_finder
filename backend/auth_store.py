@@ -55,6 +55,27 @@ def update_user_password(email: str, new_password: str) -> bool:
     return True
 
 
+def update_user_profile(email: str, profile_data: dict) -> Optional[dict]:
+    email_clean = email.lower().strip()
+    users = _load_json(USERS_FILE)
+    if email_clean not in users:
+        return None
+    user = users[email_clean]
+    allowed_fields = [
+        "name", "phone", "mobile_number", "address", "dob",
+        "clg_name", "university", "linkedin", "linkedin_id",
+        "job_search_field", "profile_photo", "saved_jobs"
+    ]
+    for key in allowed_fields:
+        if key in profile_data:
+            user[key] = profile_data[key]
+    
+    users[email_clean] = user
+    _save_json(USERS_FILE, users)
+    return user
+
+
+
 def create_reset_token(email: str, expires_in_seconds: int = 3600) -> str:
     token = secrets.token_urlsafe(32)
     tokens = _load_json(TOKENS_FILE)

@@ -80,11 +80,11 @@ def extract_candidate_name(text: str, email: str | None = None) -> str | None:
 
 
 # ---------------------------------------------------------------------------
-# Location & Education Extraction
+# Location & Address Extraction
 # ---------------------------------------------------------------------------
 
 LOCATION_REGEX = re.compile(
-    r"(?:location|address|city|residing in|based in)[\s:]*([A-Za-z\s,]{3,30})", re.I
+    r"(?:location|address|city|residing in|based in)[\s:]*([A-Za-z0-9\s,.-]{3,50})", re.I
 )
 COMMON_CITIES = [
     "Mumbai", "Delhi", "Bengaluru", "Bangalore", "Hyderabad", "Pune", "Chennai",
@@ -96,23 +96,51 @@ def extract_location(text: str) -> str | None:
     match = LOCATION_REGEX.search(text)
     if match:
         loc = match.group(1).strip()
-        if len(loc) < 30:
+        if len(loc) < 50:
             return loc
     for city in COMMON_CITIES:
         if re.search(r"\b" + re.escape(city) + r"\b", text, re.I):
             return city
     return None
 
+ADDRESS_REGEX = re.compile(
+    r"(?:address|residing at|permanent address|current address)[\s:]*([^\n\r]{5,80})", re.I
+)
+
+def extract_address(text: str) -> str | None:
+    match = ADDRESS_REGEX.search(text)
+    if match:
+        addr = match.group(1).strip()
+        if len(addr) < 80:
+            return addr
+    return extract_location(text)
+
+
+# ---------------------------------------------------------------------------
+# Date of Birth (DOB) Extraction
+# ---------------------------------------------------------------------------
+
+DOB_REGEX = re.compile(
+    r"(?:dob|date of birth|birth date|born|d\.o\.b)[\s:]*([0-9]{1,2}[-/\.][0-9]{1,2}[-/\.][0-9]{2,4}|[0-9]{1,2}\s+(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+[0-9]{2,4}|[0-9]{4}[-/\.][0-9]{1,2}[-/\.][0-9]{1,2})",
+    re.I
+)
+
+def extract_dob(text: str) -> str | None:
+    match = DOB_REGEX.search(text)
+    if match:
+        return match.group(1).strip()
+    return None
+
 
 UNIVERSITY_REGEX = re.compile(
-    r"([A-Za-z\s&]{3,40}(?:University|Institute|College|School|IIT|NIT|BITS|Polytechnic))", re.I
+    r"([A-Za-z\s&]{3,50}(?:University|Institute|College|School|IIT|NIT|BITS|Polytechnic))", re.I
 )
 
 def extract_university(text: str) -> str | None:
     match = UNIVERSITY_REGEX.search(text)
     if match:
         uni = match.group(1).strip()
-        return uni[:50]
+        return uni[:60]
     return None
 
 
@@ -164,7 +192,7 @@ def extract_skills(text: str) -> list[str]:
 
 
 # ---------------------------------------------------------------------------
-# Experience & Job Title Extraction
+# Experience & Job Title / Job Search Field Extraction
 # ---------------------------------------------------------------------------
 
 YEAR_RANGE_REGEX = re.compile(
@@ -178,7 +206,7 @@ EXPLICIT_EXPERIENCE_REGEX = re.compile(
 )
 
 JOB_TITLE_REGEX = re.compile(
-    r"\b(Software Engineer|Full Stack Developer|Frontend Developer|Backend Developer|Data Scientist|Data Analyst|DevOps Engineer|Product Manager|Project Manager|UI/UX Designer|System Architect|Cloud Engineer|Quality Assurance Engineer|QA Analyst|Business Analyst|Marketing Specialist|Sales Executive)\b",
+    r"\b(Software Engineer|Full Stack Developer|Frontend Developer|Backend Developer|Data Scientist|Data Analyst|DevOps Engineer|Product Manager|Project Manager|UI/UX Designer|System Architect|Cloud Engineer|Quality Assurance Engineer|QA Analyst|Business Analyst|Marketing Specialist|Sales Executive|Python Developer|Java Developer|Web Developer)\b",
     re.I
 )
 
@@ -206,6 +234,16 @@ def extract_latest_job_title(text: str) -> str | None:
     if match:
         return match.group(0).strip()
     return None
+
+
+def extract_job_search_field(text: str, skills: list[str]) -> str:
+    title = extract_latest_job_title(text)
+    if title:
+        return title
+    if skills:
+        top = [s.title() for s in skills[:3]]
+        return f"{', '.join(top)} Developer"
+    return "Software Engineer"
 
 
 # ---------------------------------------------------------------------------
@@ -249,25 +287,39 @@ def parse_resume(file_path: str) -> dict:
     text = extract_text_from_pdf(file_path)
     email = extract_email(text)
     all_skills = extract_skills(text)
+    mobile = extract_mobile_number(text)
+    linkedin = extract_linkedin(text)
+    university = extract_university(text)
+    location = extract_location(text)
+    address = extract_address(text)
+    dob = extract_dob(text)
+    job_field = extract_job_search_field(text, all_skills)
 
     return {
         "raw_text_length": len(text),
         "name": extract_candidate_name(text, email),
         "email": email,
-        "mobile_number": extract_mobile_number(text),
-        "linkedin": extract_linkedin(text),
+        "mobile_number": mobile,
+        "phone": mobile,
+        "linkedin": linkedin,
+        "linkedin_id": linkedin,
         "github": extract_github(text),
-        "location": extract_location(text),
-        "university": extract_university(text),
+        "location": location,
+        "address": address or location,
+        "university": university,
+        "clg_name": university,
         "degree": extract_degree(text),
         "graduation_year": extract_graduation_year(text),
         "cgpa": extract_cgpa(text),
+        "dob": dob,
         "skills": all_skills,
         "top_skills": all_skills[:6] if all_skills else [],
         "experience_years": extract_experience_years(text),
         "latest_job_title": extract_latest_job_title(text),
+        "job_search_field": job_field,
         "sections_found": detect_sections(text),
         "certifications": extract_certifications(text),
         "projects_count": extract_projects_count(text),
         "raw_text": text,
     }
+

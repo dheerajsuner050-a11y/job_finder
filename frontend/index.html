@@ -1,127 +1,217 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>PLUTO — AI Resume Analyzer</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PLUTO — AI Resume Analyzer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/hero-visual.css">
 </head>
+
 <body>
 
-<nav class="navbar">
-  <div class="navbar-inner">
-    <a href="index.html" class="brand">
-      <div class="brand-mark">P</div>
-      <div class="brand-name">PLUTO</div>
-    </a>
-    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="index.html" class="active">Home</a></li>
-      <li><a href="upload-resume.html">Analyze Resume</a></li>
-      <li><a href="jobs.html">Jobs</a></li>
-      <li><a href="dashboard.html">Dashboard</a></li>
-    </ul>
-    <div class="nav-actions">
-      <a href="login.html" class="btn btn-ghost btn-sm">Log in</a>
-      <a href="register.html" class="btn btn-primary btn-sm">Sign up free</a>
-    </div>
-  </div>
-</nav>
-
-<section class="hero">
-  <div class="hero-inner">
-    <div>
-      <span class="section-eyebrow">AI-Powered Resume Screening</span>
-      <h1>Get past the <span class="highlight">ATS filter</span> before a human ever sees your resume.</h1>
-      <p class="lead">PLUTO scans your resume the way an Applicant Tracking System does — scoring it, flagging what's missing, and matching you to live job openings, instantly.</p>
-      <div class="hero-cta">
-        <a href="upload-resume.html" class="btn btn-primary">Analyze My Resume</a>
-        <a href="#how-it-works" class="btn btn-outline">See how it works</a>
-      </div>
-      <div class="hero-stats">
-        <div class="hero-stat"><div class="num">98%</div><div class="label">ATS parsing accuracy</div></div>
-        <div class="hero-stat"><div class="num">10K+</div><div class="label">Resumes screened</div></div>
-        <div class="hero-stat"><div class="num">Live</div><div class="label">Job matching</div></div>
-      </div>
-    </div>
-    <div class="hero-visual">
-      <img src="assets/hero-illustration.png" alt="Job seeker heading to their next opportunity" />
-    </div>
-  </div>
-</section>
-
-<section class="section" id="how-it-works" style="background:var(--surface); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
-  <div class="section-head">
-    <span class="section-eyebrow">How it works</span>
-    <h2>Three steps to a stronger application</h2>
-  </div>
-  <div class="how-grid container">
-    <div class="how-card">
-      <div class="step-num">01</div>
-      <h3>Upload your resume</h3>
-      <p>Drop in your PDF resume. PLUTO reads it exactly the way an ATS would.</p>
-    </div>
-    <div class="how-card">
-      <div class="step-num">02</div>
-      <h3>Get your ATS score</h3>
-      <p>See a breakdown of contact info, skills match, experience, formatting, and length — with a clear score out of 100.</p>
-    </div>
-    <div class="how-card">
-      <div class="step-num">03</div>
-      <h3>Find matching jobs</h3>
-      <p>Based on the skills PLUTO found, get live job openings pulled in real time, with direct apply links.</p>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="section-head">
-    <span class="section-eyebrow">Why PLUTO</span>
-    <h2>Built around what actually gets resumes rejected</h2>
-  </div>
-  <div class="how-grid container">
-    <div class="how-card card">
-      <h3>Real ATS logic</h3>
-      <p>Weighted scoring across contact info, keyword match, experience, formatting, and resume length — the same categories real ATS software checks.</p>
-    </div>
-    <div class="how-card card">
-      <h3>Skill extraction</h3>
-      <p>Automatically detects 150+ technical and professional skills already on your resume, no manual tagging needed.</p>
-    </div>
-    <div class="how-card card">
-      <h3>Live openings</h3>
-      <p>Jobs are pulled fresh at analysis time and matched to your top skills, with direct links to apply.</p>
-    </div>
-  </div>
-</section>
-
-<footer class="site-footer">
-  <div class="footer-inner">
-    <div class="footer-col">
-      <a href="index.html" class="brand" style="margin-bottom:12px;">
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="brand">
         <div class="brand-mark">P</div>
         <div class="brand-name">PLUTO</div>
       </a>
-      <p style="color:#a9c6cd; font-size:13px;">AI-based resume analysis and job matching.</p>
+      <button class="nav-toggle" id="navToggle"
+        aria-label="Toggle menu"><span></span><span></span><span></span></button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="upload-resume.html">Analyze Resume</a></li>
+        <li><a href="jobs.html">Jobs</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="login.html" class="btn btn-ghost btn-sm">Log in</a>
+        <a href="register.html" class="btn btn-primary btn-sm">Sign up free</a>
+      </div>
     </div>
-    <div class="footer-col">
-      <h4>Product</h4>
-      <a href="upload-resume.html">Analyze Resume</a>
-      <a href="jobs.html">Browse Jobs</a>
-      <a href="dashboard.html">Dashboard</a>
-    </div>
-    <div class="footer-col">
-      <h4>Account</h4>
-      <a href="login.html">Log in</a>
-      <a href="register.html">Sign up</a>
-      <a href="forgot-password.html">Forgot password</a>
-    </div>
-  </div>
-  <div class="footer-bottom">© 2026 PLUTO. All rights reserved.</div>
-</footer>
+  </nav>
 
-<script src="js/auth.js"></script>
+  <section class="hero">
+    <div class="hero-inner">
+      <div>
+        <span class="section-eyebrow">AI-Powered Resume Screening</span>
+        <h1>Get past the <span class="highlight">ATS filter</span> before a human ever sees your resume.</h1>
+        <p class="lead">PLUTO scans your resume the way an Applicant Tracking System does — scoring it, flagging what's
+          missing, and matching you to live job openings, instantly.</p>
+        <div class="hero-cta">
+          <a href="upload-resume.html" class="btn btn-primary">Analyze My Resume</a>
+          <a href="#how-it-works" class="btn btn-outline">See how it works</a>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="num">98%</div>
+            <div class="label">ATS parsing accuracy</div>
+          </div>
+          <div class="hero-stat">
+            <div class="num">10K+</div>
+            <div class="label">Resumes screened</div>
+          </div>
+          <div class="hero-stat">
+            <div class="num">Live</div>
+            <div class="label">Job matching</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <!-- Animated visual stage -->
+        <div class="hv-stage">
+
+          <!-- Glow orb background -->
+          <div class="hv-orb"></div>
+
+          <!-- Logo card — floats top-left -->
+          <div class="hv-card hv-card-logo">
+            <img src="assets/logo2.png" alt="PLUTO logo" />
+          </div>
+
+          <!-- Central display card -->
+          <div class="hv-card hv-card-main">
+            <img src="assets/logo1.png" alt="Resume preview" />
+            <div class="hv-card-overlay">
+              <span class="hv-pill">✦ ATS Ready</span>
+            </div>
+          </div>
+
+          <!-- Expressive typography lines -->
+          <div class="hv-typo hv-typo-1">ANALYZE</div>
+          <div class="hv-typo hv-typo-2">SCORE</div>
+          <div class="hv-typo hv-typo-3">APPLY</div>
+
+          <!-- Animated typewriter label -->
+          <div class="hv-typewriter-wrap">
+            <span class="hv-tw-prefix">Your next role is</span>
+            <span class="hv-typewriter" id="hvTypewriter"></span>
+            <span class="hv-cursor">|</span>
+          </div>
+
+          <!-- Floating stat chips -->
+          <div class="hv-stat-chip hv-chip-1">
+            <span class="hv-chip-num">98%</span>
+            <span class="hv-chip-label">Parse Accuracy</span>
+          </div>
+          <div class="hv-stat-chip hv-chip-2">
+            <span class="hv-chip-icon">⚡</span>
+            <span class="hv-chip-label">Instant Match</span>
+          </div>
+          <div class="hv-stat-chip hv-chip-3">
+            <span class="hv-chip-num">10K+</span>
+            <span class="hv-chip-label">Jobs Live</span>
+          </div>
+
+          <!-- Scan line animation -->
+          <div class="hv-scanline"></div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section" id="how-it-works"
+    style="background:var(--surface); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+    <div class="section-head">
+      <span class="section-eyebrow">How it works</span>
+      <h2>Three steps to a stronger application</h2>
+    </div>
+    <div class="how-grid container">
+      <div class="how-card">
+        <div class="step-num">01</div>
+        <h3>Upload your resume</h3>
+        <p>Drop in your PDF resume. PLUTO reads it exactly the way an ATS would.</p>
+      </div>
+      <div class="how-card">
+        <div class="step-num">02</div>
+        <h3>Get your ATS score</h3>
+        <p>See a breakdown of contact info, skills match, experience, formatting, and length — with a clear score out of
+          100.</p>
+      </div>
+      <div class="how-card">
+        <div class="step-num">03</div>
+        <h3>Find matching jobs</h3>
+        <p>Based on the skills PLUTO found, get live job openings pulled in real time, with direct apply links.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <span class="section-eyebrow">Why PLUTO</span>
+      <h2>Built around what actually gets resumes rejected</h2>
+    </div>
+    <div class="how-grid container">
+      <div class="how-card card">
+        <h3>Real ATS logic</h3>
+        <p>Weighted scoring across contact info, keyword match, experience, formatting, and resume length — the same
+          categories real ATS software checks.</p>
+      </div>
+      <div class="how-card card">
+        <h3>Skill extraction</h3>
+        <p>Automatically detects 150+ technical and professional skills already on your resume, no manual tagging
+          needed.</p>
+      </div>
+      <div class="how-card card">
+        <h3>Live openings</h3>
+        <p>Jobs are pulled fresh at analysis time and matched to your top skills, with direct links to apply.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <a href="index.html" class="brand" style="margin-bottom:12px;">
+          <div class="brand-mark">P</div>
+          <div class="brand-name">PLUTO</div>
+        </a>
+        <p style="color:#a9c6cd; font-size:13px;">AI-based resume analysis and job matching.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <a href="upload-resume.html">Analyze Resume</a>
+        <a href="jobs.html">Browse Jobs</a>
+        <a href="dashboard.html">Dashboard</a>
+      </div>
+      <div class="footer-col">
+        <h4>Account</h4>
+        <a href="login.html">Log in</a>
+        <a href="register.html">Sign up</a>
+        <a href="forgot-password.html">Forgot password</a>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2026 PLUTO. All rights reserved.</div>
+  </footer>
+
+  <script src="js/auth.js"></script>
+  <script>
+    /* Hero visual typewriter */
+    const hvWords = [" waiting.", " yours.", " closer.", " here."];
+    let hvIdx = 0, hvChar = 0, hvDeleting = false;
+    const hvEl = document.getElementById("hvTypewriter");
+    function hvTick() {
+      if (!hvEl) return;
+      const word = hvWords[hvIdx];
+      if (!hvDeleting) {
+        hvEl.textContent = word.slice(0, ++hvChar);
+        if (hvChar === word.length) { hvDeleting = true; setTimeout(hvTick, 1600); return; }
+      } else {
+        hvEl.textContent = word.slice(0, --hvChar);
+        if (hvChar === 0) { hvDeleting = false; hvIdx = (hvIdx + 1) % hvWords.length; }
+      }
+      setTimeout(hvTick, hvDeleting ? 55 : 95);
+    }
+    hvTick();
+  </script>
+
 </body>
+
 </html>

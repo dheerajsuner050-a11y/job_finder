@@ -21,6 +21,7 @@ from auth_store import (
     get_user_by_email,
     save_user,
     update_user_password,
+    update_user_profile,
     create_reset_token,
     consume_reset_token,
 )
@@ -58,6 +59,19 @@ class ForgotPasswordRequest(BaseModel):
 class ResetPasswordRequest(BaseModel):
     token: str
     new_password: str
+
+class ProfileUpdateRequest(BaseModel):
+    email: str
+    name: Optional[str] = None
+    phone: Optional[str] = None
+    address: Optional[str] = None
+    dob: Optional[str] = None
+    clg_name: Optional[str] = None
+    linkedin: Optional[str] = None
+    job_search_field: Optional[str] = None
+    profile_photo: Optional[str] = None
+    saved_jobs: Optional[list] = None
+
 
 # ---------------- Health Check ----------------
 
@@ -154,6 +168,36 @@ async def reset_password(req: ResetPasswordRequest):
         "status": "success",
         "message": "Your password has been successfully reset! You can now log in with your new password.",
     }
+
+
+# ---------------- Profile Management Endpoints ----------------
+
+@app.get("/api/user/profile")
+async def get_profile(email: str):
+    email_clean = email.lower().strip()
+    user = get_user_by_email(email_clean)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found.")
+    
+    # Return user profile (exclude password)
+    profile = {k: v for k, v in user.items() if k != "password"}
+    return {"status": "success", "user": profile}
+
+
+@app.post("/api/user/profile")
+async def update_profile(req: ProfileUpdateRequest):
+    email_clean = req.email.lower().strip()
+    if not email_clean:
+        raise HTTPException(status_code=400, detail="Email is required.")
+
+    update_dict = {k: v for k, v in req.model_dump().items() if v is not None and k != "email"}
+    user = update_user_profile(email_clean, update_dict)
+    if not user:
+        raise HTTPException(status_code=404, detail="User profile not found.")
+
+    profile = {k: v for k, v in user.items() if k != "password"}
+    return {"status": "success", "message": "Profile updated successfully.", "user": profile}
+
 
 # ---------------- Resume Analysis & Job Search ----------------
 

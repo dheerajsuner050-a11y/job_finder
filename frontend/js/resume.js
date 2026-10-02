@@ -92,6 +92,23 @@ if (submitBtn) {
       sessionStorage.setItem("pluto_resumeAnalysis", JSON.stringify(data));
       sessionStorage.setItem("pluto_resumeFileName", selectedFile.name);
 
+      // Auto-extract and populate user profile fields from resume without asking during login
+      if (data.resume_data) {
+        const rd = data.resume_data;
+        const profileUpdates = {};
+        if (rd.phone || rd.mobile_number) profileUpdates.phone = rd.phone || rd.mobile_number;
+        if (rd.address || rd.location) profileUpdates.address = rd.address || rd.location;
+        if (rd.dob) profileUpdates.dob = rd.dob;
+        if (rd.clg_name || rd.university) profileUpdates.clg_name = rd.clg_name || rd.university;
+        if (rd.linkedin_id || rd.linkedin) profileUpdates.linkedin = rd.linkedin_id || rd.linkedin;
+        if (rd.job_search_field || rd.latest_job_title) profileUpdates.job_search_field = rd.job_search_field || rd.latest_job_title;
+        if (rd.name) profileUpdates.name = rd.name;
+
+        if (typeof updateUserProfile === "function") {
+          updateUserProfile(profileUpdates);
+        }
+      }
+
       window.location.href = "ats-result.html";
     } catch (err) {
       showBanner(errorBanner, err.message || "Could not reach the backend. Check that the server is running and API_BASE is correct.");

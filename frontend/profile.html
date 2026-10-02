@@ -33,35 +33,97 @@
     </div>
 
     <div class="profile-grid">
+      <!-- Left Column: Avatar & Summary -->
       <div class="card profile-avatar-card">
-        <div class="profile-avatar-big" id="profileAvatarBig">--</div>
-        <h3 style="margin-bottom:4px;" id="profileNameDisplay"></h3>
-        <p style="font-size:13px; margin-bottom:18px;">Resume on file</p>
-        <div class="badge" id="resumeOnFile">No resume analyzed yet</div>
+        <div class="profile-avatar-container">
+          <div class="profile-avatar-big" id="profileAvatarBig">--</div>
+          <img id="profileAvatarImg" class="profile-avatar-img" style="display:none;" alt="Profile Photo" />
+          <button type="button" class="avatar-upload-btn" id="uploadPhotoBtn" title="Change Profile Photo">
+            📷 Edit Photo
+          </button>
+          <input type="file" id="photoInput" accept="image/*" style="display:none;" />
+        </div>
+        <h3 style="margin-bottom:4px;" id="profileNameDisplay">User Profile</h3>
+        <p style="font-size:13px; color:var(--ink-soft); margin-bottom:12px;" id="profileEmailDisplay">user@example.com</p>
+        
+        <div style="margin-top:14px; text-align:left; border-top:1px solid var(--border); padding-top:14px;">
+          <div class="section-eyebrow">Resume Status</div>
+          <div class="badge" id="resumeOnFile">No resume analyzed yet</div>
+          <div class="auto-extracted-hint" id="autoExtractedBadge" style="display:none; margin-top:8px;">
+            ✨ Profile info auto-extracted from resume
+          </div>
+        </div>
       </div>
 
+      <!-- Right Column: Profile Form -->
       <div class="card">
-        <span class="section-eyebrow">Account details</span>
+        <span class="section-eyebrow">Personal & Professional Details</span>
         <h3 style="margin-bottom:20px;">Edit profile</h3>
 
         <div class="form-success-banner" id="profileSuccess"></div>
 
         <form id="profileForm">
-          <div class="field">
-            <label for="profileName">Full name</label>
-            <input type="text" id="profileName" required />
+          <div class="profile-form-grid">
+            <div class="field">
+              <label for="profileName">Full name</label>
+              <input type="text" id="profileName" required placeholder="e.g. Alex Smith" />
+            </div>
+            
+            <div class="field">
+              <label for="profileEmail">Email address</label>
+              <input type="email" id="profileEmail" disabled style="background:var(--bg); color:var(--ink-faint);" />
+              <div class="hint">Email can't be changed in this demo.</div>
+            </div>
+
+            <div class="field">
+              <label for="profilePhone">Mobile / Phone Number</label>
+              <input type="tel" id="profilePhone" placeholder="+91 98765 43210" />
+            </div>
+
+            <div class="field">
+              <label for="profileDob">Date of Birth (DOB)</label>
+              <input type="date" id="profileDob" />
+            </div>
+
+            <div class="field profile-grid-full">
+              <label for="profileAddress">Address / Location</label>
+              <input type="text" id="profileAddress" placeholder="e.g. 123 Tech Park, South Delhi, India" />
+            </div>
+
+            <div class="field">
+              <label for="profileClgName">College / University Name</label>
+              <input type="text" id="profileClgName" placeholder="e.g. Delhi Technological University" />
+            </div>
+
+            <div class="field">
+              <label for="profileLinkedin">LinkedIn ID / Link</label>
+              <input type="url" id="profileLinkedin" placeholder="https://linkedin.com/in/username" />
+            </div>
+
+            <div class="field profile-grid-full">
+              <label for="profileJobSearchField">Target Job Search Field / Preferred Role</label>
+              <input type="text" id="profileJobSearchField" placeholder="e.g. Full Stack Developer, Data Analyst, Software Engineer" />
+            </div>
           </div>
-          <div class="field">
-            <label for="profileEmail">Email address</label>
-            <input type="email" id="profileEmail" disabled style="background:var(--bg); color:var(--ink-faint);" />
-            <div class="hint">Email can't be changed in this demo.</div>
-          </div>
-          <div class="field">
-            <label for="profilePhone">Phone number</label>
-            <input type="tel" id="profilePhone" placeholder="+91 98765 43210" />
-          </div>
-          <button type="submit" class="btn btn-primary">Save changes</button>
+
+          <button type="submit" class="btn btn-primary" style="margin-top:12px;">Save changes</button>
         </form>
+      </div>
+    </div>
+
+    <!-- Saved Jobs Section -->
+    <div class="card" style="margin-top:28px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
+        <div>
+          <span class="section-eyebrow">Bookmarks</span>
+          <h3 style="margin:0;">Saved Jobs</h3>
+        </div>
+        <a href="jobs.html" class="btn btn-outline btn-sm">Explore More Jobs →</a>
+      </div>
+
+      <div id="savedJobsList" class="job-grid" style="margin-top:16px;"></div>
+      <div id="savedJobsEmpty" class="empty-state" style="display:none; padding:30px 20px;">
+        <p style="margin:0;">No saved jobs yet. Click "Save" on any job card to bookmark it here!</p>
       </div>
     </div>
   </main>

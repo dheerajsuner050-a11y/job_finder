@@ -1,0 +1,307 @@
+/* ============================================================
+   Hero Visual — Expressive Typography Animation Stage
+   ============================================================ */
+
+/* Override the default hero-visual to let the stage fill it */
+.hero-visual {
+  position: relative;
+  min-height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* The main containing stage */
+.hv-stage {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  height: 420px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: linear-gradient(135deg, #0d1f26 0%, #0a3042 60%, #0c4a5e 100%);
+  box-shadow: 0 32px 80px -20px rgba(4, 108, 154, 0.55),
+              0 0 0 1px rgba(12, 173, 243, 0.15);
+  user-select: none;
+}
+
+/* ---- Glow orb ---- */
+.hv-orb {
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(12, 173, 243, 0.28) 0%, transparent 70%);
+  animation: hvOrbPulse 4s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes hvOrbPulse {
+  0%, 100% { transform: scale(1);   opacity: 0.8; }
+  50%       { transform: scale(1.2); opacity: 0.5; }
+}
+
+/* ---- Image cards ---- */
+.hv-card {
+  position: absolute;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: 0 12px 36px rgba(0,0,0,0.45);
+}
+.hv-card img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Logo card - top-left, small, tilted, floats */
+.hv-card-logo {
+  top: 22px;
+  left: 22px;
+  width: 72px;
+  height: 72px;
+  border-radius: 14px;
+  transform: rotate(-6deg);
+  animation: hvFloat1 6s ease-in-out infinite, hvEntryLeft 0.8s cubic-bezier(.2,.9,.3,1) both;
+  border: 2px solid rgba(12, 173, 243, 0.4);
+}
+@keyframes hvFloat1 {
+  0%, 100% { transform: rotate(-6deg) translateY(0);   }
+  50%       { transform: rotate(-6deg) translateY(-10px); }
+}
+
+/* Main feature card - center-right */
+.hv-card-main {
+  bottom: 50px;
+  right: 24px;
+  width: 150px;
+  height: 150px;
+  transform: rotate(4deg);
+  animation: hvFloat2 7s ease-in-out infinite, hvEntryRight 1s cubic-bezier(.2,.9,.3,1) 0.2s both;
+}
+@keyframes hvFloat2 {
+  0%, 100% { transform: rotate(4deg) translateY(0);    }
+  50%       { transform: rotate(4deg) translateY(-8px); }
+}
+.hv-card-overlay {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 8px 10px;
+  background: linear-gradient(transparent, rgba(4,40,60,0.9));
+  display: flex;
+  align-items: flex-end;
+}
+.hv-pill {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #7ee8fa;
+  background: rgba(12,173,243,0.18);
+  border: 1px solid rgba(12,173,243,0.5);
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+/* ---- Expressive large typography words ---- */
+.hv-typo {
+  position: absolute;
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.03em;
+  pointer-events: none;
+  line-height: 1;
+  color: transparent;
+}
+
+.hv-typo-1 {
+  font-size: 88px;
+  -webkit-text-stroke: 1.5px rgba(12, 173, 243, 0.22);
+  top: 30px;
+  left: -8px;
+  animation: hvTypo1 8s ease-in-out infinite, hvEntryFade 1.2s ease 0.1s both;
+  white-space: nowrap;
+}
+@keyframes hvTypo1 {
+  0%, 100% { transform: translateX(0);   opacity: 0.6; }
+  50%       { transform: translateX(6px); opacity: 1;   }
+}
+
+.hv-typo-2 {
+  font-size: 108px;
+  -webkit-text-stroke: 2px rgba(86, 195, 225, 0.18);
+  top: 120px;
+  right: -12px;
+  text-align: right;
+  animation: hvTypo2 9s ease-in-out infinite, hvEntryFade 1.2s ease 0.3s both;
+  white-space: nowrap;
+}
+@keyframes hvTypo2 {
+  0%, 100% { transform: translateX(0);    opacity: 0.5; }
+  50%       { transform: translateX(-8px); opacity: 0.9; }
+}
+
+.hv-typo-3 {
+  font-size: 76px;
+  -webkit-text-stroke: 1.5px rgba(12, 173, 243, 0.14);
+  bottom: 36px;
+  left: 4px;
+  animation: hvTypo3 7s ease-in-out infinite, hvEntryFade 1.2s ease 0.5s both;
+  white-space: nowrap;
+}
+@keyframes hvTypo3 {
+  0%, 100% { transform: translateY(0);    opacity: 0.5; }
+  50%       { transform: translateY(-5px); opacity: 0.85; }
+}
+
+/* ---- Typewriter strip ---- */
+.hv-typewriter-wrap {
+  position: absolute;
+  bottom: 18px;
+  left: 16px;
+  right: 180px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: rgba(255,255,255,0.65);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.hv-tw-prefix {
+  color: rgba(255,255,255,0.4);
+}
+.hv-typewriter {
+  color: #7ee8fa;
+  font-weight: 700;
+}
+.hv-cursor {
+  color: var(--primary);
+  animation: hvBlink 1s step-start infinite;
+  font-weight: 300;
+}
+@keyframes hvBlink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* ---- Floating stat chips ---- */
+.hv-stat-chip {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(12,173,243,0.3);
+  backdrop-filter: blur(8px);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-family: var(--font-mono);
+  color: #fff;
+  white-space: nowrap;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+}
+.hv-chip-num {
+  font-size: 15px;
+  font-weight: 700;
+  color: #7ee8fa;
+}
+.hv-chip-icon {
+  font-size: 14px;
+}
+.hv-chip-label {
+  font-size: 10px;
+  color: rgba(255,255,255,0.6);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.hv-chip-1 {
+  top: 108px;
+  left: 20px;
+  animation: hvChip1 6s ease-in-out infinite, hvEntryUp 0.7s cubic-bezier(.2,.9,.3,1) 0.4s both;
+}
+@keyframes hvChip1 {
+  0%, 100% { transform: translateY(0);    }
+  50%       { transform: translateY(-7px); }
+}
+
+.hv-chip-2 {
+  top: 190px;
+  left: 30px;
+  animation: hvChip2 8s ease-in-out infinite, hvEntryUp 0.7s cubic-bezier(.2,.9,.3,1) 0.6s both;
+  animation-delay: 1s, 0.6s;
+}
+@keyframes hvChip2 {
+  0%, 100% { transform: translateY(0);   }
+  50%       { transform: translateY(6px); }
+}
+
+.hv-chip-3 {
+  top: 265px;
+  right: 26px;
+  animation: hvChip3 7s ease-in-out infinite, hvEntryUp 0.7s cubic-bezier(.2,.9,.3,1) 0.8s both;
+  animation-delay: 0.5s, 0.8s;
+}
+@keyframes hvChip3 {
+  0%, 100% { transform: translateY(0);    }
+  50%       { transform: translateY(-9px); }
+}
+
+/* ---- Scan line ---- */
+.hv-scanline {
+  position: absolute;
+  left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(12,173,243,0.7) 40%,
+    rgba(86,195,225,0.9) 50%,
+    rgba(12,173,243,0.7) 60%,
+    transparent 100%);
+  animation: hvScan 4s linear infinite;
+  pointer-events: none;
+  opacity: 0.75;
+}
+@keyframes hvScan {
+  0%   { top: 0%;   opacity: 0; }
+  5%   { opacity: 0.8; }
+  95%  { opacity: 0.8; }
+  100% { top: 100%; opacity: 0; }
+}
+
+/* ---- Entry keyframes ---- */
+@keyframes hvEntryLeft {
+  from { transform: rotate(-6deg) translateX(-40px); opacity: 0; }
+  to   { transform: rotate(-6deg) translateX(0);     opacity: 1; }
+}
+@keyframes hvEntryRight {
+  from { transform: rotate(4deg) translateX(40px); opacity: 0; }
+  to   { transform: rotate(4deg) translateX(0);    opacity: 1; }
+}
+@keyframes hvEntryUp {
+  from { transform: translateY(24px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+@keyframes hvEntryFade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 860px) {
+  .hv-stage {
+    max-width: 100%;
+    height: 300px;
+  }
+  .hv-typo-1 { font-size: 60px; }
+  .hv-typo-2 { font-size: 72px; }
+  .hv-typo-3 { font-size: 52px; }
+  .hv-card-main { width: 110px; height: 110px; right: 16px; bottom: 36px; }
+  .hv-typewriter-wrap { right: 130px; font-size: 11px; }
+}
